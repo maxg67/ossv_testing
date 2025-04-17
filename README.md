@@ -22,7 +22,7 @@ This testing framework provides a rigorous, methodical approach to evaluate the 
 ```bash
 # Clone the repository
 git clone https://github.com/yourusername/ossv-testing.git
-cd ossv-testing
+cd ossv_testing
 
 # Install the package
 pip install -e .
@@ -65,6 +65,7 @@ ossv-test compare --mode feature-matrix
 
 ### Visualization
 
+# NOTE: When making, make sure all results are in the right place. Yaml in master, json in sub files. RECOMMENDED to clear the result section out before starting.
 ```bash
 # Generate dashboard
 ossv-test visualize --type dashboard
