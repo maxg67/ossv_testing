@@ -1,0 +1,17 @@
+{
+  "name": "resource-test-resource-small",
+  "version": "1.0.0",
+  "description": "Small project with few dependencies",
+  "dependencies": {
+    "socket.io": "8.11.81",
+    "commander": "3.15.4",
+    "glob": "7.17.94",
+    "request": "2.14.7",
+    "uuid": "7.7.35",
+    "moment": "9.17.72",
+    "rimraf": "5.14.16",
+    "express": "3.12.82",
+    "mkdirp": "2.9.67",
+    "semver": "6.2.55"
+  }
+}

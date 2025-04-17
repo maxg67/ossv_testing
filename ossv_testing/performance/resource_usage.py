@@ -14,6 +14,7 @@ import subprocess
 import shutil
 import platform
 import threading
+import random
 from typing import Dict, Any, List, Optional, Tuple, Set
 from pathlib import Path
 import statistics
@@ -275,8 +276,8 @@ def profile_process(process, sampling_rate: float) -> Dict[str, Any]:
     
     return profile_data
 
+def run_scanner_with_profiling(project_dir: Path, output_dir: Path, sampling_rate: float, progress=None) -> Tuple[Path, Dict[str, Any]]:
 
-def run_scanner_with_profiling(project_dir: Path, output_dir: Path, sampling_rate: float) -> Tuple[Path, Dict[str, Any]]:
     """
     Run ossv-scanner with detailed resource profiling.
     
@@ -367,7 +368,7 @@ def run_scanner_with_profiling(project_dir: Path, output_dir: Path, sampling_rat
         return output_path, profile_data
 
 
-def run_multiple_iterations(config: Dict[str, Any], project_dir: Path, output_dir: Path) -> List[Dict[str, Any]]:
+def run_multiple_iterations(config: Dict[str, Any], project_dir: Path, output_dir: Path, progress=None) -> List[Dict[str, Any]]:
     """
     Run multiple iterations of the scanner on the same project.
     
@@ -818,80 +819,91 @@ def generate_iteration_plots(iteration_results: List[Dict[str, Any]], output_dir
     return plots
 
 
-def run_test(duration: int = 60, basic: bool = False, comprehensive: bool = False) -> Dict[str, Any]:
+import time
+import tempfile
+import logging
+from pathlib import Path
+from typing import Dict, Any, Optional
+from rich.progress import Progress
+
+logger = logging.getLogger(__name__)
+
+def run_test(
+    config=None,
+    base_dir: Optional[Path] = None,
+    progress: Optional[Progress] = None,
+    duration: int = 60,
+    basic: bool = False,
+    comprehensive: bool = False
+) -> Dict[str, Any]:
     """
     Run resource usage profiling tests.
-    
+
     Args:
+        config: (optional) config object if passed directly.
+        base_dir: (optional) base directory to store temp files.
+        progress: (optional) a shared progress object.
         duration: Maximum test duration in seconds.
         basic: Whether to run basic tests only.
         comprehensive: Whether to run comprehensive tests.
-        
+
     Returns:
         Test results.
     """
     logger.info("Starting resource usage profiling")
-    
-    # Set up test environment
-    base_dir = Path(tempfile.mkdtemp(prefix="ossv-resource-profile-"))
+
+    if base_dir is None:
+        base_dir = Path(tempfile.mkdtemp(prefix="ossv-resource-profile-"))
+
     output_dir = base_dir / "results"
     output_dir.mkdir(parents=True, exist_ok=True)
     plots_dir = base_dir / "plots"
     plots_dir.mkdir(parents=True, exist_ok=True)
-    
-    # Select configurations based on test mode
+
     if basic:
-        # Use minimal configurations
-        selected_configs = [PROFILE_CONFIGS[0]]  # Small project only
+        selected_configs = [PROFILE_CONFIGS[0]]
     elif comprehensive:
-        # Use all configurations
         selected_configs = PROFILE_CONFIGS
     else:
-        # Use standard configurations
-        selected_configs = [PROFILE_CONFIGS[0], PROFILE_CONFIGS[1]]  # Small and medium projects
-    
-    # Adjust based on available time
+        selected_configs = [PROFILE_CONFIGS[0], PROFILE_CONFIGS[1]]
+
     if duration < 30 and not basic:
         logger.info(f"Short duration ({duration}s) - reducing test set")
-        selected_configs = [PROFILE_CONFIGS[0]]  # Small project only
+        selected_configs = [PROFILE_CONFIGS[0]]
     elif duration > 300 and not comprehensive:
         logger.info(f"Long duration ({duration}s) - adding more tests")
-        if PROFILE_CONFIGS[2] not in selected_configs:  # Add large project test
+        if PROFILE_CONFIGS[2] not in selected_configs:
             selected_configs.append(PROFILE_CONFIGS[2])
-    
+
     test_results = {}
-    
-    with Progress() as progress:
+
+    progress_created_here = False
+    if progress is None:
+        progress = Progress()
+        progress.__enter__()
+        progress_created_here = True
+
+    try:
         task1 = progress.add_task("[green]Creating test projects...", total=len(selected_configs))
         task2 = progress.add_task("[cyan]Running profiling tests...", total=len(selected_configs))
-        
-        # Start timing
+
         start_time = time.time()
-        
-        # Process each configuration
+
         for config in selected_configs:
             logger.info(f"Testing {config['name']} ({config['id']})")
-            
-            # Create test project
+
             project_dir = create_test_project(config, base_dir)
             progress.update(task1, advance=1)
-            
-            # Run test based on configuration type
+
             if "iterations" in config:
-                # Multiple iterations test
                 test_output_dir = output_dir / config["id"]
                 test_output_dir.mkdir(parents=True, exist_ok=True)
-                
+
                 iteration_results = run_multiple_iterations(config, project_dir, test_output_dir)
-                
-                # Analyze iterations
                 iteration_analysis = analyze_iterations(iteration_results)
-                
-                # Generate iteration plots
                 iteration_plots_dir = plots_dir / config["id"]
                 iteration_plots = generate_iteration_plots(iteration_results, iteration_plots_dir)
-                
-                # Store results
+
                 test_results[config["id"]] = {
                     "config": config,
                     "project_dir": str(project_dir),
@@ -900,23 +912,18 @@ def run_test(duration: int = 60, basic: bool = False, comprehensive: bool = Fals
                     "iteration_analysis": iteration_analysis,
                     "iteration_plots": {name: str(path) for name, path in iteration_plots.items()}
                 }
+
             else:
-                # Single run test
                 test_output_dir = output_dir / config["id"]
                 test_output_dir.mkdir(parents=True, exist_ok=True)
-                
+
                 output_path, profile_data = run_scanner_with_profiling(
                     project_dir, test_output_dir, config.get("sampling_rate", 0.1)
                 )
-                
-                # Analyze profile data
                 analysis = analyze_profile_data(profile_data)
-                
-                # Generate plots
                 plots_output_dir = plots_dir / config["id"]
                 plots = generate_profile_plots(profile_data, plots_output_dir)
-                
-                # Store results
+
                 test_results[config["id"]] = {
                     "config": config,
                     "project_dir": str(project_dir),
@@ -925,16 +932,18 @@ def run_test(duration: int = 60, basic: bool = False, comprehensive: bool = Fals
                     "analysis": analysis,
                     "plots": {name: str(path) for name, path in plots.items()}
                 }
-            
+
             progress.update(task2, advance=1)
-            
-            # Check if we've exceeded the duration limit
+
             elapsed = time.time() - start_time
-            if elapsed > duration and len(test_results) >= 1:  # Ensure we have at least 1 data point
+            if elapsed > duration and len(test_results) >= 1:
                 logger.info(f"Duration limit reached ({elapsed:.1f}s > {duration}s), stopping tests")
                 break
-    
-    # Create overall analysis
+
+    finally:
+        if progress_created_here:
+            progress.__exit__(None, None, None)
+
     overall_analysis = {
         "tests_completed": len(test_results),
         "resource_usage": {
@@ -948,32 +957,22 @@ def run_test(duration: int = 60, basic: bool = False, comprehensive: bool = Fals
         },
         "recommendations": []
     }
-    
-    # Extract key metrics
+
     for config_id, result in test_results.items():
         config = result["config"]
-        
-        # Handle different test types
         if "iteration_results" in result:
-            # Multiple iterations test
             iteration_analysis = result["iteration_analysis"]
-            
-            # Check for memory leak risk
             if iteration_analysis["memory"]["increasing"]:
                 overall_analysis["resource_usage"]["memory_leak_risk"] = "High"
                 overall_analysis["recommendations"].append(
                     "Investigate potential memory leaks across multiple runs"
                 )
         else:
-            # Single run test
             analysis = result["analysis"]
-            
-            # Add to overall metrics
             overall_analysis["resource_usage"]["avg_memory_mb"].append(analysis["memory"]["average_mb"])
             overall_analysis["resource_usage"]["peak_memory_mb"].append(analysis["memory"]["peak_mb"])
             overall_analysis["resource_usage"]["avg_cpu_percent"].append(analysis["cpu"]["average"])
-            
-            # Store project-specific metrics
+
             if config["id"] == "resource-small":
                 overall_analysis["resource_usage"]["small_project"] = {
                     "peak_memory_mb": analysis["memory"]["peak_mb"],
@@ -992,13 +991,11 @@ def run_test(duration: int = 60, basic: bool = False, comprehensive: bool = Fals
                     "avg_cpu_percent": analysis["cpu"]["average"],
                     "duration": analysis["duration"]
                 }
-            
-            # Add any warnings to overall recommendations
+
             for warning in analysis["warnings"]:
                 if warning not in overall_analysis["recommendations"]:
                     overall_analysis["recommendations"].append(warning)
-    
-    # Final results
+
     final_results = {
         "test_environment": {
             "base_dir": str(base_dir),
@@ -1014,12 +1011,14 @@ def run_test(duration: int = 60, basic: bool = False, comprehensive: bool = Fals
             "actual_duration": time.time() - start_time
         }
     }
-    
-    # Display summary
+
     display_summary(overall_analysis, test_results)
-    
     logger.info("Resource usage profiling completed")
     return final_results
+
+
+
+
 
 
 def display_summary(overall_analysis: Dict[str, Any], test_results: Dict[str, Dict[str, Any]]) -> None:

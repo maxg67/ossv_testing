@@ -1,10 +1,17 @@
 from setuptools import setup, find_packages
+import os
 
-with open("README.md", "r", encoding="utf-8") as fh:
-    long_description = fh.read()
+# Safely load README if it exists
+long_description = ""
+if os.path.exists("README.md"):
+    with open("README.md", "r", encoding="utf-8") as fh:
+        long_description = fh.read()
 
-with open("requirements.txt", "r", encoding="utf-8") as fh:
-    requirements = fh.read().splitlines()
+# Load dependencies from requirements.txt
+requirements = []
+if os.path.exists("requirements.txt"):
+    with open("requirements.txt", "r", encoding="utf-8") as fh:
+        requirements = fh.read().splitlines()
 
 setup(
     name="ossv-testing",
@@ -16,6 +23,7 @@ setup(
     long_description_content_type="text/markdown",
     url="https://github.com/yourusername/ossv-testing",
     packages=find_packages(),
+    include_package_data=True,  # Makes sure extra files (like configs/scripts) are included
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
@@ -29,7 +37,7 @@ setup(
     install_requires=requirements,
     entry_points={
         "console_scripts": [
-            "ossv-test=ossv_testing.cli:main",
+            "ossv-test=ossv_testing.cli:main",  # 👈 Make sure this function exists
         ],
     },
 )

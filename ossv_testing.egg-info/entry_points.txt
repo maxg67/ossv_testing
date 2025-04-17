@@ -1,0 +1,2 @@
+[console_scripts]
+ossv-test = ossv_testing.cli:main

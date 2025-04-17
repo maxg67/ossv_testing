@@ -16,11 +16,14 @@ import subprocess
 import random
 import signal
 import threading
+import numpy as np
 from typing import Dict, Any, List, Optional, Tuple, Set
 from pathlib import Path
 import platform
 
+
 import matplotlib.pyplot as plt
+
 import seaborn as sns
 import pandas as pd
 from rich.console import Console
@@ -929,147 +932,119 @@ def analyze_results(test_results: Dict[str, Dict[str, Any]]) -> Dict[str, Any]:
 def generate_plots(analysis: Dict[str, Any], test_results: Dict[str, Dict[str, Any]], output_dir: Path) -> Dict[str, Path]:
     """
     Generate plots for chaos test results.
-    
+
     Args:
         analysis: Analysis results.
         test_results: Dictionary of test results by scenario ID.
         output_dir: Directory to save plots.
-        
+
     Returns:
         Dictionary mapping plot names to file paths.
     """
     output_dir.mkdir(exist_ok=True)
     plots = {}
-    
+
     # Set plot style
     sns.set(style="whitegrid")
-    
+
     # 1. Outcomes by Chaos Action
-    plt.figure(figsize=(12, 6))
-    
-    # Prepare data
     actions = []
     successes = []
     graceful_failures = []
     crashes = []
     hangs = []
-    
+
     for action, metrics in analysis["by_category"].items():
         actions.append(action)
         successes.append(metrics["success"])
         graceful_failures.append(metrics["graceful_failure"])
         crashes.append(metrics["crash"])
         hangs.append(metrics["hang"])
-    
-    # Create stacked bar chart
+
     width = 0.6
     fig, ax = plt.subplots(figsize=(12, 6))
-    
+
     ax.bar(actions, successes, width, label='Success', color='green')
     ax.bar(actions, graceful_failures, width, bottom=successes, label='Graceful Failure', color='yellow')
-    ax.bar(actions, crashes, width, bottom=[sum(x) for x in zip(successes, graceful_failures)], 
+    ax.bar(actions, crashes, width, bottom=[sum(x) for x in zip(successes, graceful_failures)],
            label='Crash', color='red')
-    ax.bar(actions, hangs, width, bottom=[sum(x) for x in zip(successes, graceful_failures, crashes)], 
+    ax.bar(actions, hangs, width, bottom=[sum(x) for x in zip(successes, graceful_failures, crashes)],
            label='Hang', color='purple')
-    
+
     ax.set_title('Outcomes by Chaos Action')
     ax.set_xlabel('Chaos Action')
     ax.set_ylabel('Count')
     ax.legend()
-    
-    # Rotate x-axis labels for better readability
+
     plt.xticks(rotation=45, ha='right')
     plt.tight_layout()
-    
+
     outcomes_path = output_dir / "outcomes_by_action.png"
     plt.savefig(outcomes_path)
     plt.close()
     plots["outcomes_by_action"] = outcomes_path
-    
+
     # 2. Resilience Score Gauge Chart
-    plt.figure(figsize=(8, 8))
-    
-    # Create gauge chart
     fig, ax = plt.subplots(figsize=(8, 8), subplot_kw={'projection': 'polar'})
-    
-    # Convert resilience score to radians (0-100 to 0-pi)
+
     resilience = analysis["resilience_score"]
     theta = np.pi * resilience / 100.0
-    
-    # Color based on score
-    if resilience >= 80:
-        color = 'green'
-    elif resilience >= 50:
-        color = 'yellow'
-    else:
-        color = 'red'
-    
-    # Draw gauge
+
+    color = 'green' if resilience >= 80 else 'yellow' if resilience >= 50 else 'red'
     ax.bar(0, 1, width=theta, bottom=0.0, color=color, alpha=0.8)
-    
-    # Customize polar plot to look like a gauge
+
     ax.set_thetamin(0)
     ax.set_thetamax(180)
     ax.set_theta_zero_location("S")
     ax.set_theta_direction(-1)
     ax.set_rlim(0, 1)
     ax.set_rticks([])
-    
-    # Add score text
-    ax.text(0, 0, f"{resilience:.1f}%", ha='center', va='center', fontsize=24, 
-            fontweight='bold', color='black')
-    
-    # Add title
+
+    ax.text(0, 0, f"{resilience:.1f}%", ha='center', va='center', fontsize=24, fontweight='bold', color='black')
     plt.title('Resilience Score', pad=20, fontsize=16)
-    
-    # Add score categories
+
     ax.text(np.pi/2, 1.15, 'Poor', ha='center', va='center', fontsize=12, color='red')
     ax.text(np.pi/4, 1.15, 'Good', ha='center', va='center', fontsize=12, color='yellow')
     ax.text(0, 1.15, 'Excellent', ha='center', va='center', fontsize=12, color='green')
-    
+
     resilience_path = output_dir / "resilience_score.png"
     plt.savefig(resilience_path)
     plt.close()
     plots["resilience_score"] = resilience_path
-    
+
     # 3. Execution Time Comparison
-    plt.figure(figsize=(10, 6))
-    
-    # Prepare data
     scenario_names = []
     durations = []
     colors = []
-    
+
     for scenario_id, result in test_results.items():
         scenario = result["scenario"]
         metrics = result["metrics"]
-        
+
         scenario_names.append(scenario["name"])
         durations.append(metrics["duration"])
-        
-        # Color based on success
+
         if metrics["success"]:
             colors.append('green')
         elif metrics["exit_code"] is not None:
             colors.append('yellow')
         else:
             colors.append('red')
-    
-    # Create bar chart
-    plt.bar(scenario_names, durations, color=colors)
-    plt.title('Execution Time by Scenario')
-    plt.xlabel('Scenario')
-    plt.ylabel('Duration (seconds)')
-    
-    # Rotate x-axis labels for better readability
+
+    fig, ax = plt.subplots(figsize=(10, 6))
+    ax.bar(scenario_names, durations, color=colors)
+    ax.set_title('Execution Time by Scenario')
+    ax.set_xlabel('Scenario')
+    ax.set_ylabel('Duration (seconds)')
+
     plt.xticks(rotation=45, ha='right')
     plt.tight_layout()
-    
+
     duration_path = output_dir / "execution_time.png"
     plt.savefig(duration_path)
     plt.close()
     plots["execution_time"] = duration_path
-    
+
     return plots
 
 

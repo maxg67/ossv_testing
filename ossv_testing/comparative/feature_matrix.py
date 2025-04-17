@@ -740,14 +740,17 @@ def generate_feature_matrix_plots(
     # 3. Heatmap of Feature Support
     plt.figure(figsize=(14, 20))
     
-    # Prepare data
-    # Create a pivot table for easier heatmap creation
-    pivot_df = matrix_df.pivot_table(
-        index=["Category", "Feature"], 
-        columns=matrix_df.columns[2:],  # Skip Category and Feature columns
-        values=matrix_df.columns[2:],   # Use the same columns for values
-        aggfunc='first'                 # Just take the first value
-    )
+    tool_columns = matrix_df.columns[2:]  # Get all columns except Category and Feature
+
+    # Modified pivot - use a different approach
+    pivot_df = pd.DataFrame(index=pd.MultiIndex.from_arrays([
+        matrix_df["Category"].values,
+        matrix_df["Feature"].values
+    ], names=["Category", "Feature"]))
+
+    # Add each tool column directly
+    for col in tool_columns:
+        pivot_df[col] = matrix_df[col].values
     
     # Sort by category and feature
     pivot_df = pivot_df.sort_index()

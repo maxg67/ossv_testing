@@ -1,0 +1,1495 @@
+feature_matrix:
+  comparison_with_ossv: {}
+  feature_coverage:
+    dependabot:
+      category_coverage:
+        Remediation:
+          percentage: !!python/object/apply:numpy._core.multiarray.scalar
+          - &id001 !!python/object/apply:numpy.dtype
+            args:
+            - f8
+            - false
+            - true
+            state: !!python/tuple
+            - 3
+            - <
+            - null
+            - null
+            - null
+            - -1
+            - -1
+            - 0
+          - !!binary |
+            t23btm3bUUA=
+          supported: 5
+          total: 7
+        Reporting & Management:
+          percentage: !!python/object/apply:numpy._core.multiarray.scalar
+          - *id001
+          - !!binary |
+            AAAAAAAASUA=
+          supported: 4
+          total: 8
+        SBOM Generation:
+          percentage: !!python/object/apply:numpy._core.multiarray.scalar
+          - *id001
+          - !!binary |
+            AAAAAAAAKUA=
+          supported: 1
+          total: 8
+        Scanning Capabilities:
+          percentage: !!python/object/apply:numpy._core.multiarray.scalar
+          - *id001
+          - !!binary |
+            JEmSJEmSLEA=
+          supported: 1
+          total: 7
+        Usability & Integration:
+          percentage: !!python/object/apply:numpy._core.multiarray.scalar
+          - *id001
+          - !!binary |
+            juM4juM4RkA=
+          supported: 4
+          total: 9
+        Vulnerability Detection:
+          percentage: !!python/object/apply:numpy._core.multiarray.scalar
+          - *id001
+          - !!binary |
+            juM4juM4VkA=
+          supported: 8
+          total: 9
+      coverage_percentage: !!python/object/apply:numpy._core.multiarray.scalar
+      - *id001
+      - !!binary |
+        VlVVVVX1R0A=
+      supported_features: 23
+      total_features: 48
+    snyk:
+      category_coverage:
+        Remediation:
+          percentage: !!python/object/apply:numpy._core.multiarray.scalar
+          - *id001
+          - !!binary |
+            AAAAAAAAWUA=
+          supported: 7
+          total: 7
+        Reporting & Management:
+          percentage: !!python/object/apply:numpy._core.multiarray.scalar
+          - *id001
+          - !!binary |
+            AAAAAAAAWUA=
+          supported: 8
+          total: 8
+        SBOM Generation:
+          percentage: !!python/object/apply:numpy._core.multiarray.scalar
+          - *id001
+          - !!binary |
+            AAAAAAAAWUA=
+          supported: 8
+          total: 8
+        Scanning Capabilities:
+          percentage: !!python/object/apply:numpy._core.multiarray.scalar
+          - *id001
+          - !!binary |
+            AAAAAAAAWUA=
+          supported: 7
+          total: 7
+        Usability & Integration:
+          percentage: !!python/object/apply:numpy._core.multiarray.scalar
+          - *id001
+          - !!binary |
+            AAAAAAAAWUA=
+          supported: 9
+          total: 9
+        Vulnerability Detection:
+          percentage: !!python/object/apply:numpy._core.multiarray.scalar
+          - *id001
+          - !!binary |
+            AAAAAAAAWUA=
+          supported: 9
+          total: 9
+      coverage_percentage: !!python/object/apply:numpy._core.multiarray.scalar
+      - *id001
+      - !!binary |
+        AAAAAAAAWUA=
+      supported_features: 48
+      total_features: 48
+  feature_matrix:
+  - Category: Vulnerability Detection
+    Feature: npm dependencies
+    dependabot: true
+    snyk: true
+  - Category: Vulnerability Detection
+    Feature: PyPI dependencies
+    dependabot: true
+    snyk: true
+  - Category: Vulnerability Detection
+    Feature: Maven dependencies
+    dependabot: true
+    snyk: true
+  - Category: Vulnerability Detection
+    Feature: Gem dependencies
+    dependabot: true
+    snyk: true
+  - Category: Vulnerability Detection
+    Feature: Go dependencies
+    dependabot: true
+    snyk: true
+  - Category: Vulnerability Detection
+    Feature: Transitive dependencies
+    dependabot: true
+    snyk: true
+  - Category: Vulnerability Detection
+    Feature: CVE database integration
+    dependabot: true
+    snyk: true
+  - Category: Vulnerability Detection
+    Feature: GitHub advisories integration
+    dependabot: true
+    snyk: true
+  - Category: Vulnerability Detection
+    Feature: Custom vulnerability rules
+    dependabot: false
+    snyk: true
+  - Category: SBOM Generation
+    Feature: CycloneDX format
+    dependabot: false
+    snyk: true
+  - Category: SBOM Generation
+    Feature: SPDX format
+    dependabot: false
+    snyk: true
+  - Category: SBOM Generation
+    Feature: JSON output
+    dependabot: false
+    snyk: true
+  - Category: SBOM Generation
+    Feature: XML output
+    dependabot: false
+    snyk: true
+  - Category: SBOM Generation
+    Feature: PDF report
+    dependabot: false
+    snyk: true
+  - Category: SBOM Generation
+    Feature: License information
+    dependabot: true
+    snyk: true
+  - Category: SBOM Generation
+    Feature: Package URL (PURL) support
+    dependabot: false
+    snyk: true
+  - Category: SBOM Generation
+    Feature: Component evidence
+    dependabot: false
+    snyk: true
+  - Category: Scanning Capabilities
+    Feature: Command-line interface
+    dependabot: false
+    snyk: true
+  - Category: Scanning Capabilities
+    Feature: Programmatic API
+    dependabot: false
+    snyk: true
+  - Category: Scanning Capabilities
+    Feature: Local scanning
+    dependabot: false
+    snyk: true
+  - Category: Scanning Capabilities
+    Feature: CI/CD integration
+    dependabot: true
+    snyk: true
+  - Category: Scanning Capabilities
+    Feature: IDE plugins
+    dependabot: false
+    snyk: true
+  - Category: Scanning Capabilities
+    Feature: Docker container scanning
+    dependabot: false
+    snyk: true
+  - Category: Scanning Capabilities
+    Feature: Offline scanning
+    dependabot: false
+    snyk: true
+  - Category: Remediation
+    Feature: Vulnerability details
+    dependabot: true
+    snyk: true
+  - Category: Remediation
+    Feature: Fix recommendations
+    dependabot: true
+    snyk: true
+  - Category: Remediation
+    Feature: Automatic PR generation
+    dependabot: true
+    snyk: true
+  - Category: Remediation
+    Feature: Severity classification
+    dependabot: true
+    snyk: true
+  - Category: Remediation
+    Feature: Exploit likelihood
+    dependabot: false
+    snyk: true
+  - Category: Remediation
+    Feature: Affected component paths
+    dependabot: true
+    snyk: true
+  - Category: Remediation
+    Feature: Prioritization guidance
+    dependabot: false
+    snyk: true
+  - Category: Usability & Integration
+    Feature: Custom policies
+    dependabot: false
+    snyk: true
+  - Category: Usability & Integration
+    Feature: Ignore patterns
+    dependabot: true
+    snyk: true
+  - Category: Usability & Integration
+    Feature: Configuration file
+    dependabot: true
+    snyk: true
+  - Category: Usability & Integration
+    Feature: Output customization
+    dependabot: false
+    snyk: true
+  - Category: Usability & Integration
+    Feature: GitHub integration
+    dependabot: true
+    snyk: true
+  - Category: Usability & Integration
+    Feature: GitLab integration
+    dependabot: false
+    snyk: true
+  - Category: Usability & Integration
+    Feature: Jenkins integration
+    dependabot: false
+    snyk: true
+  - Category: Usability & Integration
+    Feature: REST API
+    dependabot: false
+    snyk: true
+  - Category: Usability & Integration
+    Feature: Multi-language support
+    dependabot: true
+    snyk: true
+  - Category: Reporting & Management
+    Feature: Historical vulnerability tracking
+    dependabot: true
+    snyk: true
+  - Category: Reporting & Management
+    Feature: Centralized dashboard
+    dependabot: false
+    snyk: true
+  - Category: Reporting & Management
+    Feature: Custom reports
+    dependabot: false
+    snyk: true
+  - Category: Reporting & Management
+    Feature: Team collaboration
+    dependabot: true
+    snyk: true
+  - Category: Reporting & Management
+    Feature: Role-based access control
+    dependabot: true
+    snyk: true
+  - Category: Reporting & Management
+    Feature: Compliance reporting
+    dependabot: false
+    snyk: true
+  - Category: Reporting & Management
+    Feature: Metrics and KPIs
+    dependabot: false
+    snyk: true
+  - Category: Reporting & Management
+    Feature: Notification system
+    dependabot: true
+    snyk: true
+  metadata:
+    timestamp: '2025-04-17 22:45:14'
+    tools_compared:
+    - snyk
+    - dependabot
+  plots:
+    category_coverage: C:\Users\maxgr\AppData\Local\Temp\ossv-feature-matrix-guv4vu2g\plots\category_coverage.png
+    feature_heatmap: C:\Users\maxgr\AppData\Local\Temp\ossv-feature-matrix-guv4vu2g\plots\feature_heatmap.png
+    overall_coverage: C:\Users\maxgr\AppData\Local\Temp\ossv-feature-matrix-guv4vu2g\plots\overall_coverage.png
+  tools:
+    dependabot:
+      description: GitHub's dependency scanning tool
+      features:
+        Affected component paths: true
+        Automatic PR generation: true
+        CI/CD integration: true
+        CVE database integration: true
+        Centralized dashboard: false
+        Command-line interface: false
+        Compliance reporting: false
+        Component evidence: false
+        Configuration file: true
+        Custom policies: false
+        Custom reports: false
+        Custom vulnerability rules: false
+        CycloneDX format: false
+        Docker container scanning: false
+        Exploit likelihood: false
+        Fix recommendations: true
+        Gem dependencies: true
+        GitHub advisories integration: true
+        GitHub integration: true
+        GitLab integration: false
+        Go dependencies: true
+        Historical vulnerability tracking: true
+        IDE plugins: false
+        Ignore patterns: true
+        JSON output: false
+        Jenkins integration: false
+        License information: true
+        Local scanning: false
+        Maven dependencies: true
+        Metrics and KPIs: false
+        Multi-language support: true
+        Notification system: true
+        Offline scanning: false
+        Output customization: false
+        PDF report: false
+        Package URL (PURL) support: false
+        Prioritization guidance: false
+        Programmatic API: false
+        PyPI dependencies: true
+        REST API: false
+        Role-based access control: true
+        SPDX format: false
+        Severity classification: true
+        Team collaboration: true
+        Transitive dependencies: true
+        Vulnerability details: true
+        XML output: false
+        npm dependencies: true
+      license: Free with GitHub
+      primary_language: Ruby
+      website: https://github.com/dependabot
+    snyk:
+      description: Developer security platform
+      features:
+        Affected component paths: true
+        Automatic PR generation: true
+        CI/CD integration: true
+        CVE database integration: true
+        Centralized dashboard: true
+        Command-line interface: true
+        Compliance reporting: true
+        Component evidence: true
+        Configuration file: true
+        Custom policies: true
+        Custom reports: true
+        Custom vulnerability rules: true
+        CycloneDX format: true
+        Docker container scanning: true
+        Exploit likelihood: true
+        Fix recommendations: true
+        Gem dependencies: true
+        GitHub advisories integration: true
+        GitHub integration: true
+        GitLab integration: true
+        Go dependencies: true
+        Historical vulnerability tracking: true
+        IDE plugins: true
+        Ignore patterns: true
+        JSON output: true
+        Jenkins integration: true
+        License information: true
+        Local scanning: true
+        Maven dependencies: true
+        Metrics and KPIs: true
+        Multi-language support: true
+        Notification system: true
+        Offline scanning: true
+        Output customization: true
+        PDF report: true
+        Package URL (PURL) support: true
+        Prioritization guidance: true
+        Programmatic API: true
+        PyPI dependencies: true
+        REST API: true
+        Role-based access control: true
+        SPDX format: true
+        Severity classification: true
+        Team collaboration: true
+        Transitive dependencies: true
+        Vulnerability details: true
+        XML output: true
+        npm dependencies: true
+      license: Commercial
+      primary_language: JavaScript
+      website: https://snyk.io/
+metadata:
+  comparison_mode: both
+  duration: 66.98145937919617
+  timestamp: '2025-04-17 22:46:17'
+  tools_compared:
+  - ossv-scanner
+  - snyk
+  - dependabot
+  - owasp-dc
+roi:
+  assumptions:
+    annual_vulnerability_discovery_rate: 0.15
+    average_breach_cost: 4240000
+    average_dependencies_per_app: 75
+    average_vulnerability_remediation_hours: 8
+    breach_probability_per_vulnerability: 0.01
+    ci_cd_frequency_daily: 10
+    developer_hourly_rate: 75
+    estimated_scale_factor: 1.0
+    false_positive_investigation_hours: 2
+    number_of_applications: 10
+    overhead_multiplier: 1.5
+    scan_interruption_cost: 50
+    security_hourly_rate: 100
+    tool_costs:
+      dependabot:
+        implementation_hours: 2
+        license_annual: 0
+        maintenance_monthly_hours: 1
+        training_hours: 1
+      npm-audit:
+        implementation_hours: 1
+        license_annual: 0
+        maintenance_monthly_hours: 0.5
+        training_hours: 0.5
+      ossv-scanner:
+        implementation_hours: 4
+        license_annual: 0
+        maintenance_monthly_hours: 1
+        training_hours: 2
+      owasp-dependency-check:
+        implementation_hours: 16
+        license_annual: 0
+        maintenance_monthly_hours: 4
+        training_hours: 8
+      safety:
+        implementation_hours: 2
+        license_annual: 0
+        maintenance_monthly_hours: 1
+        training_hours: 1
+      snyk:
+        implementation_hours: 8
+        license_annual: 15000
+        maintenance_monthly_hours: 2
+        training_hours: 4
+  metadata:
+    timestamp: '2025-04-17 22:45:16'
+    tools_analyzed:
+    - snyk
+    - dependabot
+  plots:
+    cost_benefit_analysis: C:\Users\maxgr\AppData\Local\Temp\ossv-roi-analysis-ews6j8ls\plots\cost_benefit_analysis.png
+    cost_comparison: C:\Users\maxgr\AppData\Local\Temp\ossv-roi-analysis-ews6j8ls\plots\cost_comparison.png
+    effectiveness_vs_cost: C:\Users\maxgr\AppData\Local\Temp\ossv-roi-analysis-ews6j8ls\plots\effectiveness_vs_cost.png
+    operational_cost_breakdown: C:\Users\maxgr\AppData\Local\Temp\ossv-roi-analysis-ews6j8ls\plots\operational_cost_breakdown.png
+    roi_comparison: C:\Users\maxgr\AppData\Local\Temp\ossv-roi-analysis-ews6j8ls\plots\roi_comparison.png
+  roi_analyses:
+    dependabot:
+      annual_benefit: 3816000.0
+      direct_costs:
+        annual_maintenance: 1350.0
+        annual_recurring: 1350.0
+        implementation_cost: 225.0
+        license_cost: 0
+        total_first_year: 1687.5
+        total_five_year: 7087.5
+        training_cost: 112.5
+      five_year_benefit: 19080000.0
+      five_year_cost: 496468.94329896907
+      five_year_roi: 3743.140695411072
+      operational_costs:
+        detected_vulnerabilities: 90.0
+        false_positive_cost: 626.2886597938144
+        false_positives: 2.783505154639175
+        missed_vulnerabilities: 22.499999999999996
+        remediation_cost: 81000.0
+        scan_cost: 16249.999999999998
+        total_operational_cost: 97876.28865979382
+      payback_period_years: 0.02609113958589985
+      security_benefits:
+        breaches_prevented: 0.9
+        expected_breach_cost_with_tool: 953999.9999999999
+        expected_breach_cost_without_tool: 4770000.0
+        security_benefit: 3816000.0
+      simple_roi: 3732.7187538424696
+      total_first_year_cost: 99563.78865979382
+    snyk:
+      annual_benefit: 4388400.0
+      direct_costs:
+        annual_maintenance: 2700.0
+        annual_recurring: 17700.0
+        implementation_cost: 900.0
+        license_cost: 15000
+        total_first_year: 19050.0
+        total_five_year: 89850.0
+        training_cost: 450.0
+      five_year_benefit: 21942000.0
+      five_year_cost: 728225.0
+      five_year_roi: 2913.079748704041
+      operational_costs:
+        detected_vulnerabilities: 103.5
+        false_positive_cost: 2024.9999999999995
+        false_positives: 8.999999999999998
+        missed_vulnerabilities: 8.999999999999995
+        remediation_cost: 93150.0
+        scan_cost: 32499.999999999996
+        total_operational_cost: 127675.0
+      payback_period_years: 0.03343473703399873
+      security_benefits:
+        breaches_prevented: 1.035
+        expected_breach_cost_with_tool: 381599.9999999998
+        expected_breach_cost_without_tool: 4770000.0
+        security_benefit: 4388400.0
+      simple_roi: 2890.901346055546
+      total_first_year_cost: 146725.0
+tool_matrix:
+  comparison_matrix:
+    metrics:
+    - true_positive_rate
+    - false_positive_rate
+    - detection_latency
+    - vulnerability_coverage
+    - sbom_generation
+    - license_detection
+    - remediation_advice
+    - severity_accuracy
+    - scan_time
+    - memory_usage
+    - cpu_usage
+    - setup_complexity
+    - ci_cd_integration
+    - report_quality
+    - license_cost
+    - maintenance_cost
+    scores:
+      dependabot:
+        ci_cd_integration: 1.0
+        cpu_usage: 20.0
+        detection_latency: 2.0
+        false_positive_rate: 0.0
+        license_cost: 0
+        license_detection: 0.5
+        maintenance_cost: 500
+        memory_usage: 90.0
+        remediation_advice: 1.0
+        report_quality: 8.0
+        sbom_generation: 0.0
+        scan_time: 0.4597286383310954
+        setup_complexity: 1.0
+        severity_accuracy: 0.8
+        true_positive_rate: 0.8666666666666667
+        vulnerability_coverage: 0.85
+      ossv-scanner:
+        ci_cd_integration: 2.0
+        cpu_usage: 28.5
+        detection_latency: 3.5
+        false_positive_rate: 0.0
+        license_cost: 0
+        license_detection: 0.7
+        maintenance_cost: 2000
+        memory_usage: 10.15625
+        remediation_advice: 0.8
+        report_quality: 7.0
+        sbom_generation: 1.0
+        scan_time: 15.974002520243326
+        setup_complexity: 3.0
+        severity_accuracy: 0.9
+        true_positive_rate: 0.1111111111111111
+        vulnerability_coverage: 0.82
+      owasp-dc:
+        false_positive_rate: 0
+        true_positive_rate: 0.0
+      snyk:
+        ci_cd_integration: 1.0
+        cpu_usage: 25.0
+        detection_latency: 1.5
+        false_positive_rate: 0.0
+        license_cost: 12000
+        license_detection: 1.0
+        maintenance_cost: 1000
+        memory_usage: 120.0
+        remediation_advice: 1.0
+        report_quality: 9.0
+        sbom_generation: 0.5
+        scan_time: 0.8473409016927084
+        setup_complexity: 2.0
+        severity_accuracy: 0.85
+        true_positive_rate: 0.9333333333333332
+        vulnerability_coverage: 0.95
+    tools:
+      dependabot:
+        command: simulate_dependabot
+        description: GitHub's dependency scanning tool
+        install_command: N/A - GitHub-hosted service
+        license: Free with GitHub
+        name: Dependabot
+        result_parser: parse_dependabot_results
+        website: https://github.com/dependabot
+      ossv-scanner:
+        description: Open Source Software Vulnerability Scanner
+        license: Open Source
+        name: OSSV Scanner
+        website: ''
+      owasp-dc:
+        command: dependency-check --scan {path} --out {output}
+        description: Software composition analysis tool
+        install_command: Varies by platform - see website
+        license: Open Source
+        name: OWASP Dependency-Check
+        result_parser: parse_dependency_check_results
+        website: https://owasp.org/www-project-dependency-check/
+      snyk:
+        command: snyk test
+        description: Developer security platform to find & fix vulnerabilities
+        install_command: npm install -g snyk
+        license: Commercial
+        name: Snyk
+        result_parser: parse_snyk_results
+        website: https://snyk.io/
+  metadata:
+    timestamp: '2025-04-17 22:46:17'
+    tools_compared:
+    - ossv-scanner
+    - snyk
+    - dependabot
+    - owasp-dc
+  plots:
+    cost_comparison: C:\Users\maxgr\AppData\Local\Temp\ossv-tool-comparison-pp39amlw\plots\cost_comparison.png
+    detection_performance: C:\Users\maxgr\AppData\Local\Temp\ossv-tool-comparison-pp39amlw\plots\detection_performance.png
+    feature_completeness: C:\Users\maxgr\AppData\Local\Temp\ossv-tool-comparison-pp39amlw\plots\feature_completeness.png
+    overall_comparison: C:\Users\maxgr\AppData\Local\Temp\ossv-tool-comparison-pp39amlw\plots\overall_comparison.png
+    performance_comparison: C:\Users\maxgr\AppData\Local\Temp\ossv-tool-comparison-pp39amlw\plots\performance_comparison.png
+  test_environment:
+    base_dir: C:\Users\maxgr\AppData\Local\Temp\ossv-tool-comparison-pp39amlw
+    output_dir: C:\Users\maxgr\AppData\Local\Temp\ossv-tool-comparison-pp39amlw\results
+    plots_dir: C:\Users\maxgr\AppData\Local\Temp\ossv-tool-comparison-pp39amlw\plots
+  tool_results:
+    dependabot:
+      mixed-medium:
+        analysis:
+          detected_vulnerabilities:
+          - detected:
+              id: CVE-2019-10744
+              package: lodash
+              severity: HIGH
+              version: 4.17.15
+            known:
+              description: Prototype pollution in lodash
+              id: CVE-2019-10744
+              package: lodash
+              severity: HIGH
+              version: 4.17.15
+          - detected:
+              id: CVE-2019-19844
+              package: django
+              severity: HIGH
+              version: 2.2.8
+            known:
+              description: Account takeover vulnerability
+              id: CVE-2019-19844
+              package: Django
+              severity: HIGH
+              version: 2.2.8
+          - detected:
+              id: CVE-2018-18074
+              package: requests
+              severity: MEDIUM
+              version: 2.20.0
+            known:
+              description: Information disclosure vulnerability
+              id: CVE-2018-18074
+              package: requests
+              severity: MEDIUM
+              version: 2.20.0
+          extra_vulnerabilities: []
+          f1_score: 0.7499999999999999
+          false_negatives: 2
+          false_positive_rate: 0.0
+          false_positives: 0
+          license_detected: true
+          missed_vulnerabilities:
+          - description: Regular expression denial of service
+            id: CVE-2019-15605
+            package: express/glob-parent
+            severity: MEDIUM
+            version: transitive
+          - description: Prototype pollution in minimist
+            id: CVE-2020-7598
+            package: mocha/minimist
+            severity: MEDIUM
+            version: transitive
+          remediation_advised: true
+          sbom_generated: false
+          true_positive_rate: 0.6
+          true_positives: 3
+        known_vulns:
+        - description: Prototype pollution in lodash
+          id: CVE-2019-10744
+          package: lodash
+          severity: HIGH
+          version: 4.17.15
+        - description: Account takeover vulnerability
+          id: CVE-2019-19844
+          package: Django
+          severity: HIGH
+          version: 2.2.8
+        - description: Information disclosure vulnerability
+          id: CVE-2018-18074
+          package: requests
+          severity: MEDIUM
+          version: 2.20.0
+        - description: Regular expression denial of service
+          id: CVE-2019-15605
+          package: express/glob-parent
+          severity: MEDIUM
+          version: transitive
+        - description: Prototype pollution in minimist
+          id: CVE-2020-7598
+          package: mocha/minimist
+          severity: MEDIUM
+          version: transitive
+        metrics:
+          cpu_usage: 20
+          duration: 0.45911574363708496
+          end_time: 1744926368.3572516
+          error: null
+          exit_code: 0
+          memory_usage: 90
+          start_time: 1744926367.898136
+          success: true
+        project_dir: C:\Users\maxgr\AppData\Local\Temp\ossv-tool-comparison-pp39amlw\mixed-medium
+        result_path: C:\Users\maxgr\AppData\Local\Temp\ossv-tool-comparison-pp39amlw\results\dependabot\mixed-medium\mixed-medium-dependabot-results.json
+      npm-small:
+        analysis:
+          detected_vulnerabilities:
+          - detected:
+              id: CVE-2019-10744
+              package: lodash
+              severity: HIGH
+              version: 4.17.15
+            known:
+              description: Prototype pollution in lodash
+              id: CVE-2019-10744
+              package: lodash
+              severity: HIGH
+              version: 4.17.15
+          - detected:
+              id: CVE-2019-11358
+              package: jquery
+              severity: MEDIUM
+              version: 3.4.0
+            known:
+              description: Prototype pollution in jQuery
+              id: CVE-2019-11358
+              package: jquery
+              severity: MEDIUM
+              version: 3.4.0
+          - detected:
+              id: CVE-2020-7598
+              package: minimist
+              severity: MEDIUM
+              version: 1.2.0
+            known:
+              description: Prototype pollution in minimist
+              id: CVE-2020-7598
+              package: minimist
+              severity: MEDIUM
+              version: 1.2.0
+          extra_vulnerabilities: []
+          f1_score: 1.0
+          false_negatives: 0
+          false_positive_rate: 0.0
+          false_positives: 0
+          license_detected: true
+          missed_vulnerabilities: []
+          remediation_advised: true
+          sbom_generated: false
+          true_positive_rate: 1.0
+          true_positives: 3
+        known_vulns:
+        - description: Prototype pollution in lodash
+          id: CVE-2019-10744
+          package: lodash
+          severity: HIGH
+          version: 4.17.15
+        - description: Prototype pollution in jQuery
+          id: CVE-2019-11358
+          package: jquery
+          severity: MEDIUM
+          version: 3.4.0
+        - description: Prototype pollution in minimist
+          id: CVE-2020-7598
+          package: minimist
+          severity: MEDIUM
+          version: 1.2.0
+        metrics:
+          cpu_usage: 20
+          duration: 0.4590766429901123
+          end_time: 1744926367.3960505
+          error: null
+          exit_code: 0
+          memory_usage: 90
+          start_time: 1744926366.9369738
+          success: true
+        project_dir: C:\Users\maxgr\AppData\Local\Temp\ossv-tool-comparison-pp39amlw\npm-small
+        result_path: C:\Users\maxgr\AppData\Local\Temp\ossv-tool-comparison-pp39amlw\results\dependabot\npm-small\npm-small-dependabot-results.json
+      python-small:
+        analysis:
+          detected_vulnerabilities:
+          - detected:
+              id: CVE-2019-19844
+              package: django
+              severity: HIGH
+              version: 2.2.8
+            known:
+              description: Account takeover vulnerability
+              id: CVE-2019-19844
+              package: Django
+              severity: HIGH
+              version: 2.2.8
+          - detected:
+              id: CVE-2018-1000656
+              package: flask
+              severity: HIGH
+              version: 0.12.2
+            known:
+              description: Denial of service vulnerability
+              id: CVE-2018-1000656
+              package: Flask
+              severity: HIGH
+              version: 0.12.2
+          - detected:
+              id: CVE-2019-10906
+              package: jinja2
+              severity: HIGH
+              version: 2.10.1
+            known:
+              description: Sandbox escape vulnerability
+              id: CVE-2019-10906
+              package: Jinja2
+              severity: HIGH
+              version: 2.10.1
+          extra_vulnerabilities: []
+          f1_score: 1.0
+          false_negatives: 0
+          false_positive_rate: 0.0
+          false_positives: 0
+          license_detected: true
+          missed_vulnerabilities: []
+          remediation_advised: true
+          sbom_generated: false
+          true_positive_rate: 1.0
+          true_positives: 3
+        known_vulns:
+        - description: Account takeover vulnerability
+          id: CVE-2019-19844
+          package: Django
+          severity: HIGH
+          version: 2.2.8
+        - description: Denial of service vulnerability
+          id: CVE-2018-1000656
+          package: Flask
+          severity: HIGH
+          version: 0.12.2
+        - description: Sandbox escape vulnerability
+          id: CVE-2019-10906
+          package: Jinja2
+          severity: HIGH
+          version: 2.10.1
+        metrics:
+          cpu_usage: 20
+          duration: 0.46099352836608887
+          end_time: 1744926367.877913
+          error: null
+          exit_code: 0
+          memory_usage: 90
+          start_time: 1744926367.4169195
+          success: true
+        project_dir: C:\Users\maxgr\AppData\Local\Temp\ossv-tool-comparison-pp39amlw\python-small
+        result_path: C:\Users\maxgr\AppData\Local\Temp\ossv-tool-comparison-pp39amlw\results\dependabot\python-small\python-small-dependabot-results.json
+    ossv-scanner:
+      mixed-medium:
+        analysis:
+          detected_vulnerabilities: []
+          extra_vulnerabilities: []
+          f1_score: 0.0
+          false_negatives: 5
+          false_positive_rate: 0.0
+          false_positives: 0
+          license_detected: false
+          missed_vulnerabilities:
+          - description: Prototype pollution in lodash
+            id: CVE-2019-10744
+            package: lodash
+            severity: HIGH
+            version: 4.17.15
+          - description: Account takeover vulnerability
+            id: CVE-2019-19844
+            package: Django
+            severity: HIGH
+            version: 2.2.8
+          - description: Information disclosure vulnerability
+            id: CVE-2018-18074
+            package: requests
+            severity: MEDIUM
+            version: 2.20.0
+          - description: Regular expression denial of service
+            id: CVE-2019-15605
+            package: express/glob-parent
+            severity: MEDIUM
+            version: transitive
+          - description: Prototype pollution in minimist
+            id: CVE-2020-7598
+            package: mocha/minimist
+            severity: MEDIUM
+            version: transitive
+          remediation_advised: false
+          sbom_generated: true
+          true_positive_rate: 0.0
+          true_positives: 0
+        known_vulns:
+        - description: Prototype pollution in lodash
+          id: CVE-2019-10744
+          package: lodash
+          severity: HIGH
+          version: 4.17.15
+        - description: Account takeover vulnerability
+          id: CVE-2019-19844
+          package: Django
+          severity: HIGH
+          version: 2.2.8
+        - description: Information disclosure vulnerability
+          id: CVE-2018-18074
+          package: requests
+          severity: MEDIUM
+          version: 2.20.0
+        - description: Regular expression denial of service
+          id: CVE-2019-15605
+          package: express/glob-parent
+          severity: MEDIUM
+          version: transitive
+        - description: Prototype pollution in minimist
+          id: CVE-2020-7598
+          package: mocha/minimist
+          severity: MEDIUM
+          version: transitive
+        metrics:
+          cpu_usage: 28.7
+          duration: 24.1072998046875
+          end_time: 1744926364.2785487
+          error: null
+          exit_code: 0
+          memory_usage: 10.1640625
+          start_time: 1744926340.171249
+          success: true
+        project_dir: C:\Users\maxgr\AppData\Local\Temp\ossv-tool-comparison-pp39amlw\mixed-medium
+        result_path: C:\Users\maxgr\AppData\Local\Temp\ossv-tool-comparison-pp39amlw\results\ossv-scanner\mixed-medium\mixed-medium-ossv-results.json
+      npm-small:
+        analysis:
+          detected_vulnerabilities:
+          - detected:
+              id: CVE-2019-11358
+              package: jquery
+              severity: MEDIUM
+              version: 3.4.0
+            known:
+              description: Prototype pollution in jQuery
+              id: CVE-2019-11358
+              package: jquery
+              severity: MEDIUM
+              version: 3.4.0
+          extra_vulnerabilities: []
+          f1_score: 0.5
+          false_negatives: 2
+          false_positive_rate: 0.0
+          false_positives: 0
+          license_detected: false
+          missed_vulnerabilities:
+          - description: Prototype pollution in lodash
+            id: CVE-2019-10744
+            package: lodash
+            severity: HIGH
+            version: 4.17.15
+          - description: Prototype pollution in minimist
+            id: CVE-2020-7598
+            package: minimist
+            severity: MEDIUM
+            version: 1.2.0
+          remediation_advised: false
+          sbom_generated: true
+          true_positive_rate: 0.3333333333333333
+          true_positives: 1
+        known_vulns:
+        - description: Prototype pollution in lodash
+          id: CVE-2019-10744
+          package: lodash
+          severity: HIGH
+          version: 4.17.15
+        - description: Prototype pollution in jQuery
+          id: CVE-2019-11358
+          package: jquery
+          severity: MEDIUM
+          version: 3.4.0
+        - description: Prototype pollution in minimist
+          id: CVE-2020-7598
+          package: minimist
+          severity: MEDIUM
+          version: 1.2.0
+        metrics:
+          cpu_usage: 28.4
+          duration: 8.171294450759888
+          end_time: 1744926324.4637628
+          error: null
+          exit_code: 0
+          memory_usage: 10.14453125
+          start_time: 1744926316.2924683
+          success: true
+        project_dir: C:\Users\maxgr\AppData\Local\Temp\ossv-tool-comparison-pp39amlw\npm-small
+        result_path: C:\Users\maxgr\AppData\Local\Temp\ossv-tool-comparison-pp39amlw\results\ossv-scanner\npm-small\npm-small-ossv-results.json
+      python-small:
+        analysis:
+          detected_vulnerabilities: []
+          extra_vulnerabilities: []
+          f1_score: 0.0
+          false_negatives: 3
+          false_positive_rate: 0.0
+          false_positives: 0
+          license_detected: false
+          missed_vulnerabilities:
+          - description: Account takeover vulnerability
+            id: CVE-2019-19844
+            package: Django
+            severity: HIGH
+            version: 2.2.8
+          - description: Denial of service vulnerability
+            id: CVE-2018-1000656
+            package: Flask
+            severity: HIGH
+            version: 0.12.2
+          - description: Sandbox escape vulnerability
+            id: CVE-2019-10906
+            package: Jinja2
+            severity: HIGH
+            version: 2.10.1
+          remediation_advised: false
+          sbom_generated: true
+          true_positive_rate: 0.0
+          true_positives: 0
+        known_vulns:
+        - description: Account takeover vulnerability
+          id: CVE-2019-19844
+          package: Django
+          severity: HIGH
+          version: 2.2.8
+        - description: Denial of service vulnerability
+          id: CVE-2018-1000656
+          package: Flask
+          severity: HIGH
+          version: 0.12.2
+        - description: Sandbox escape vulnerability
+          id: CVE-2019-10906
+          package: Jinja2
+          severity: HIGH
+          version: 2.10.1
+        metrics:
+          cpu_usage: 28.4
+          duration: 15.643413305282593
+          end_time: 1744926340.1345131
+          error: null
+          exit_code: 0
+          memory_usage: 10.16015625
+          start_time: 1744926324.4910998
+          success: true
+        project_dir: C:\Users\maxgr\AppData\Local\Temp\ossv-tool-comparison-pp39amlw\python-small
+        result_path: C:\Users\maxgr\AppData\Local\Temp\ossv-tool-comparison-pp39amlw\results\ossv-scanner\python-small\python-small-ossv-results.json
+    owasp-dc:
+      mixed-medium:
+        analysis:
+          detected_vulnerabilities: []
+          extra_vulnerabilities: []
+          f1_score: 0.0
+          false_negatives: 0
+          false_positive_rate: 0.0
+          false_positives: 0
+          license_detected: false
+          missed_vulnerabilities: []
+          remediation_advised: false
+          sbom_generated: false
+          true_positive_rate: 0.0
+          true_positives: 0
+        known_vulns:
+        - description: Prototype pollution in lodash
+          id: CVE-2019-10744
+          package: lodash
+          severity: HIGH
+          version: 4.17.15
+        - description: Account takeover vulnerability
+          id: CVE-2019-19844
+          package: Django
+          severity: HIGH
+          version: 2.2.8
+        - description: Information disclosure vulnerability
+          id: CVE-2018-18074
+          package: requests
+          severity: MEDIUM
+          version: 2.20.0
+        - description: Regular expression denial of service
+          id: CVE-2019-15605
+          package: express/glob-parent
+          severity: MEDIUM
+          version: transitive
+        - description: Prototype pollution in minimist
+          id: CVE-2020-7598
+          package: mocha/minimist
+          severity: MEDIUM
+          version: transitive
+        metrics:
+          cpu_usage: 35
+          duration: 2.8069536685943604
+          end_time: 1744926376.4469109
+          error: null
+          exit_code: 0
+          memory_usage: 350
+          start_time: 1744926373.6399572
+          success: true
+        project_dir: C:\Users\maxgr\AppData\Local\Temp\ossv-tool-comparison-pp39amlw\mixed-medium
+        result_path: C:\Users\maxgr\AppData\Local\Temp\ossv-tool-comparison-pp39amlw\results\owasp-dc\mixed-medium\mixed-medium-dependency-check-results.json
+      npm-small:
+        analysis:
+          detected_vulnerabilities: []
+          extra_vulnerabilities: []
+          f1_score: 0.0
+          false_negatives: 0
+          false_positive_rate: 0.0
+          false_positives: 0
+          license_detected: false
+          missed_vulnerabilities: []
+          remediation_advised: false
+          sbom_generated: false
+          true_positive_rate: 0.0
+          true_positives: 0
+        known_vulns:
+        - description: Prototype pollution in lodash
+          id: CVE-2019-10744
+          package: lodash
+          severity: HIGH
+          version: 4.17.15
+        - description: Prototype pollution in jQuery
+          id: CVE-2019-11358
+          package: jquery
+          severity: MEDIUM
+          version: 3.4.0
+        - description: Prototype pollution in minimist
+          id: CVE-2020-7598
+          package: minimist
+          severity: MEDIUM
+          version: 1.2.0
+        metrics:
+          cpu_usage: 35
+          duration: 2.6071367263793945
+          end_time: 1744926370.9991703
+          error: null
+          exit_code: 0
+          memory_usage: 350
+          start_time: 1744926368.3920336
+          success: true
+        project_dir: C:\Users\maxgr\AppData\Local\Temp\ossv-tool-comparison-pp39amlw\npm-small
+        result_path: C:\Users\maxgr\AppData\Local\Temp\ossv-tool-comparison-pp39amlw\results\owasp-dc\npm-small\npm-small-dependency-check-results.json
+      python-small:
+        analysis:
+          detected_vulnerabilities: []
+          extra_vulnerabilities: []
+          f1_score: 0.0
+          false_negatives: 0
+          false_positive_rate: 0.0
+          false_positives: 0
+          license_detected: false
+          missed_vulnerabilities: []
+          remediation_advised: false
+          sbom_generated: false
+          true_positive_rate: 0.0
+          true_positives: 0
+        known_vulns:
+        - description: Account takeover vulnerability
+          id: CVE-2019-19844
+          package: Django
+          severity: HIGH
+          version: 2.2.8
+        - description: Denial of service vulnerability
+          id: CVE-2018-1000656
+          package: Flask
+          severity: HIGH
+          version: 0.12.2
+        - description: Sandbox escape vulnerability
+          id: CVE-2019-10906
+          package: Jinja2
+          severity: HIGH
+          version: 2.10.1
+        metrics:
+          cpu_usage: 35
+          duration: 2.6117000579833984
+          end_time: 1744926373.6226346
+          error: null
+          exit_code: 0
+          memory_usage: 350
+          start_time: 1744926371.0109346
+          success: true
+        project_dir: C:\Users\maxgr\AppData\Local\Temp\ossv-tool-comparison-pp39amlw\python-small
+        result_path: C:\Users\maxgr\AppData\Local\Temp\ossv-tool-comparison-pp39amlw\results\owasp-dc\python-small\python-small-dependency-check-results.json
+    snyk:
+      mixed-medium:
+        analysis:
+          detected_vulnerabilities:
+          - detected:
+              id: CVE-2019-10744
+              package: lodash
+              severity: HIGH
+              version: 4.17.15
+            known:
+              description: Prototype pollution in lodash
+              id: CVE-2019-10744
+              package: lodash
+              severity: HIGH
+              version: 4.17.15
+          - detected:
+              id: CVE-2019-19844
+              package: django
+              severity: HIGH
+              version: 2.2.8
+            known:
+              description: Account takeover vulnerability
+              id: CVE-2019-19844
+              package: Django
+              severity: HIGH
+              version: 2.2.8
+          - detected:
+              id: CVE-2018-18074
+              package: requests
+              severity: MEDIUM
+              version: 2.20.0
+            known:
+              description: Information disclosure vulnerability
+              id: CVE-2018-18074
+              package: requests
+              severity: MEDIUM
+              version: 2.20.0
+          - detected:
+              id: CVE-2019-15605
+              package: glob-parent
+              severity: MEDIUM
+              version: 3.1.0
+            known:
+              description: Regular expression denial of service
+              id: CVE-2019-15605
+              package: express/glob-parent
+              severity: MEDIUM
+              version: transitive
+          extra_vulnerabilities: []
+          f1_score: 0.888888888888889
+          false_negatives: 1
+          false_positive_rate: 0.0
+          false_positives: 0
+          license_detected: true
+          missed_vulnerabilities:
+          - description: Prototype pollution in minimist
+            id: CVE-2020-7598
+            package: mocha/minimist
+            severity: MEDIUM
+            version: transitive
+          remediation_advised: true
+          sbom_generated: false
+          true_positive_rate: 0.8
+          true_positives: 4
+        known_vulns:
+        - description: Prototype pollution in lodash
+          id: CVE-2019-10744
+          package: lodash
+          severity: HIGH
+          version: 4.17.15
+        - description: Account takeover vulnerability
+          id: CVE-2019-19844
+          package: Django
+          severity: HIGH
+          version: 2.2.8
+        - description: Information disclosure vulnerability
+          id: CVE-2018-18074
+          package: requests
+          severity: MEDIUM
+          version: 2.20.0
+        - description: Regular expression denial of service
+          id: CVE-2019-15605
+          package: express/glob-parent
+          severity: MEDIUM
+          version: transitive
+        - description: Prototype pollution in minimist
+          id: CVE-2020-7598
+          package: mocha/minimist
+          severity: MEDIUM
+          version: transitive
+        metrics:
+          cpu_usage: 25
+          duration: 0.9244437217712402
+          end_time: 1744926366.917943
+          error: null
+          exit_code: 0
+          memory_usage: 120
+          start_time: 1744926365.9934993
+          success: true
+        project_dir: C:\Users\maxgr\AppData\Local\Temp\ossv-tool-comparison-pp39amlw\mixed-medium
+        result_path: C:\Users\maxgr\AppData\Local\Temp\ossv-tool-comparison-pp39amlw\results\snyk\mixed-medium\mixed-medium-snyk-results.json
+      npm-small:
+        analysis:
+          detected_vulnerabilities:
+          - detected:
+              id: CVE-2019-10744
+              package: lodash
+              severity: HIGH
+              version: 4.17.15
+            known:
+              description: Prototype pollution in lodash
+              id: CVE-2019-10744
+              package: lodash
+              severity: HIGH
+              version: 4.17.15
+          - detected:
+              id: CVE-2019-11358
+              package: jquery
+              severity: MEDIUM
+              version: 3.4.0
+            known:
+              description: Prototype pollution in jQuery
+              id: CVE-2019-11358
+              package: jquery
+              severity: MEDIUM
+              version: 3.4.0
+          - detected:
+              id: CVE-2020-7598
+              package: minimist
+              severity: MEDIUM
+              version: 1.2.0
+            known:
+              description: Prototype pollution in minimist
+              id: CVE-2020-7598
+              package: minimist
+              severity: MEDIUM
+              version: 1.2.0
+          extra_vulnerabilities: []
+          f1_score: 1.0
+          false_negatives: 0
+          false_positive_rate: 0.0
+          false_positives: 0
+          license_detected: true
+          missed_vulnerabilities: []
+          remediation_advised: true
+          sbom_generated: false
+          true_positive_rate: 1.0
+          true_positives: 3
+        known_vulns:
+        - description: Prototype pollution in lodash
+          id: CVE-2019-10744
+          package: lodash
+          severity: HIGH
+          version: 4.17.15
+        - description: Prototype pollution in jQuery
+          id: CVE-2019-11358
+          package: jquery
+          severity: MEDIUM
+          version: 3.4.0
+        - description: Prototype pollution in minimist
+          id: CVE-2020-7598
+          package: minimist
+          severity: MEDIUM
+          version: 1.2.0
+        metrics:
+          cpu_usage: 25
+          duration: 0.8135514259338379
+          end_time: 1744926365.1240559
+          error: null
+          exit_code: 0
+          memory_usage: 120
+          start_time: 1744926364.3105044
+          success: true
+        project_dir: C:\Users\maxgr\AppData\Local\Temp\ossv-tool-comparison-pp39amlw\npm-small
+        result_path: C:\Users\maxgr\AppData\Local\Temp\ossv-tool-comparison-pp39amlw\results\snyk\npm-small\npm-small-snyk-results.json
+      python-small:
+        analysis:
+          detected_vulnerabilities:
+          - detected:
+              id: CVE-2019-19844
+              package: django
+              severity: HIGH
+              version: 2.2.8
+            known:
+              description: Account takeover vulnerability
+              id: CVE-2019-19844
+              package: Django
+              severity: HIGH
+              version: 2.2.8
+          - detected:
+              id: CVE-2018-1000656
+              package: flask
+              severity: HIGH
+              version: 0.12.2
+            known:
+              description: Denial of service vulnerability
+              id: CVE-2018-1000656
+              package: Flask
+              severity: HIGH
+              version: 0.12.2
+          - detected:
+              id: CVE-2019-10906
+              package: jinja2
+              severity: HIGH
+              version: 2.10.1
+            known:
+              description: Sandbox escape vulnerability
+              id: CVE-2019-10906
+              package: Jinja2
+              severity: HIGH
+              version: 2.10.1
+          extra_vulnerabilities: []
+          f1_score: 1.0
+          false_negatives: 0
+          false_positive_rate: 0.0
+          false_positives: 0
+          license_detected: true
+          missed_vulnerabilities: []
+          remediation_advised: true
+          sbom_generated: false
+          true_positive_rate: 1.0
+          true_positives: 3
+        known_vulns:
+        - description: Account takeover vulnerability
+          id: CVE-2019-19844
+          package: Django
+          severity: HIGH
+          version: 2.2.8
+        - description: Denial of service vulnerability
+          id: CVE-2018-1000656
+          package: Flask
+          severity: HIGH
+          version: 0.12.2
+        - description: Sandbox escape vulnerability
+          id: CVE-2019-10906
+          package: Jinja2
+          severity: HIGH
+          version: 2.10.1
+        metrics:
+          cpu_usage: 25
+          duration: 0.8040275573730469
+          end_time: 1744926365.96267
+          error: null
+          exit_code: 0
+          memory_usage: 120
+          start_time: 1744926365.1586425
+          success: true
+        project_dir: C:\Users\maxgr\AppData\Local\Temp\ossv-tool-comparison-pp39amlw\python-small
+        result_path: C:\Users\maxgr\AppData\Local\Temp\ossv-tool-comparison-pp39amlw\results\snyk\python-small\python-small-snyk-results.json

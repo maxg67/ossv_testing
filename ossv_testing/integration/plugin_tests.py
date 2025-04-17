@@ -12,6 +12,8 @@ import tempfile
 import json
 import subprocess
 import shutil
+import random
+import yaml
 from typing import Dict, Any, List, Optional, Tuple, Set
 from pathlib import Path
 
@@ -19,6 +21,16 @@ import requests
 from rich.console import Console
 from rich.progress import Progress
 from rich.table import Table
+
+def run_tests():
+    """
+    Run plugin integration tests.
+    
+    Returns:
+        Dictionary with test results.
+    """
+    # This will redirect to the existing function in the file
+    return run_plugin_tests()
 
 logger = logging.getLogger(__name__)
 console = Console()

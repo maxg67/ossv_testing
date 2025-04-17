@@ -23,9 +23,11 @@ class TestFramework:
     
     def __init__(self):
         """Initialize the test framework."""
-        self.results_dir = Path(tempfile.mkdtemp(prefix="ossv-testing-"))
+        self.results_dir = Path("ossv_results")
+        self.results_dir.mkdir(parents=True, exist_ok=True)
         self.start_time = time.time()
         self.config = {}
+        self.base_dir = Path.cwd()
         
         # Import modules conditionally to avoid circular imports
         from ossv_testing.benchmark import nist, owasp, cve_coverage
@@ -130,15 +132,40 @@ class TestFramework:
         else:
             return self.results_dir
     
+    @staticmethod
+    def convert_paths(results):
+        """
+        Recursively convert any Path objects to strings for JSON serialization.
+        Also handles non-serializable types like functions.
+        
+        Args:
+            results: Object to convert (can be dict, list, Path, or other type).
+            
+        Returns:
+            Object with all Path objects converted to strings and non-serializable objects converted to their string representation.
+        """
+        import types
+        from pathlib import Path
+        
+        if isinstance(results, dict):
+                return {key: TestFramework.convert_paths(value) for key, value in results.items()}
+        elif isinstance(results, list):
+                return [TestFramework.convert_paths(item) for item in results]
+        elif isinstance(results, Path):
+                return str(results)  # Convert Path object to string
+        elif isinstance(results, (types.FunctionType, types.BuiltinFunctionType, types.MethodType)):
+                return f"<function {results.__name__}>"  # Convert function object to string
+        else:
+                return results
+
+
     def _save_results(self, results: Dict[str, Any], output_dir: Path, name: str) -> None:
         """
         Save test results to files.
-        
-        Args:
-            results: Test results.
-            output_dir: Output directory.
-            name: Base name for result files.
         """
+        # Convert any Path objects in the results to strings
+        results = self.convert_paths(results)
+
         # Save as JSON
         json_path = output_dir / f"{name}.json"
         with open(json_path, "w") as f:
@@ -150,59 +177,77 @@ class TestFramework:
             yaml.dump(results, f, default_flow_style=False)
         
         logger.info(f"Results saved to {json_path} and {yaml_path}")
-    
-    def run_basic_tests(self, output_dir: Optional[str] = None, config_path: Optional[str] = None) -> int:
-        """
+        
+        console = Console()
+        console.print(f"[green]Results saved to:[/] {json_path}")
+
+    def run_basic_tests(
+        self,
+        output_dir: Optional[str] = None,
+        config_path: Optional[str] = None
+        ) -> int:
+                """
         Run a basic test suite.
-        
+
         Args:
-            output_dir: Directory to save results.
-            config_path: Path to configuration file.
-            
+            output_dir (Optional[str]): Directory to save results.
+            config_path (Optional[str]): Path to configuration file.
+
         Returns:
-            Exit code (0 for success).
-        """
-        console.print("[bold blue]Running basic test suite...[/]")
-        output_path = self._prepare_output_dir(output_dir)
-        self.config = self._load_config(config_path)
-        
-        with Progress() as progress:
-            task = progress.add_task("[green]Running tests...", total=3)
-            
-            # Run NIST benchmark
-            nist_module = self.modules["benchmark"]["nist"]
-            nist_results = nist_module.run_benchmark(basic=True)
-            progress.update(task, advance=1)
-            
-            # Run controlled test suite
-            test_suite_module = self.modules["controlled"]["test_suite"]
-            test_suite_results = test_suite_module.run_tests(basic=True)
-            progress.update(task, advance=1)
-            
-            # Run performance test
-            perf_module = self.modules["performance"]["resource_usage"]
-            perf_results = perf_module.run_test(basic=True)
-            progress.update(task, advance=1)
-        
-        # Combine results
-        all_results = {
-            "nist_benchmark": nist_results,
-            "controlled_tests": test_suite_results,
-            "performance_tests": perf_results,
-            "metadata": {
-                "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
-                "duration": time.time() - self.start_time,
-                "test_type": "basic",
-            }
-        }
-        
-        # Save results
-        self._save_results(all_results, output_path, "basic_test_results")
-        
-        console.print(f"[bold green]Basic tests completed in {time.time() - self.start_time:.2f} seconds![/]")
-        console.print(f"Results saved to {output_path}")
-        
-        return 0
+            int: Exit code (0 for success).
+              """
+                self.start_time = time.time()
+                console.print("[bold blue]Running basic test suite...[/]")
+
+                # Prepare output directory and load config
+                output_path = self._prepare_output_dir(output_dir)
+                self.config = self._load_config(config_path)
+
+        # Run tests using shared progress bar
+                with Progress() as progress:
+                    task = progress.add_task("[green]Running tests...", total=3)
+
+                    # 1. Run NIST benchmark
+                    nist_module = self.modules["benchmark"]["nist"]
+                    nist_results = nist_module.run_benchmark(basic=True)
+                    progress.update(task, advance=1)
+
+                    # 2. Run controlled test suite
+                    test_suite_module = self.modules["controlled"]["test_suite"]
+                    test_suite_results = test_suite_module.run_tests(basic=True)
+                    progress.update(task, advance=1)
+
+                    # 3. Run performance test
+                    perf_module = self.modules["performance"]["resource_usage"]
+                    perf_results = perf_module.run_test(
+                        config=self.config,
+                        base_dir=self.base_dir,
+                        progress=progress,
+                        basic=True
+                    )
+                    progress.update(task, advance=1)
+
+                # Combine all results
+                all_results = {
+                        "nist_benchmark": nist_results,
+                        "controlled_tests": test_suite_results,
+                        "performance_tests": perf_results,
+                        "metadata": {
+                            "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
+                            "duration": time.time() - self.start_time,
+                            "test_type": "basic"
+                        }
+                    }
+
+                    # Save results
+                self._save_results(all_results, output_path, "basic_test_results")
+
+                # Display summary
+                console.print(f"[bold green]✅ Basic tests completed in {time.time() - self.start_time:.2f} seconds![/]")
+                console.print(f"[blue]📁 Results saved to:[/] {output_path}")
+
+                return 0
+   
     
     def run_comprehensive_tests(self, output_dir: Optional[str] = None, config_path: Optional[str] = None) -> int:
         """

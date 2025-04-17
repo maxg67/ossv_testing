@@ -20,6 +20,17 @@ from rich.console import Console
 from rich.progress import Progress
 from rich.table import Table
 
+def convert_paths(obj):
+    if isinstance(obj, dict):
+        return {k: convert_paths(v) for k, v in obj.items()}
+    elif isinstance(obj, list):
+        return [convert_paths(i) for i in obj]
+    elif isinstance(obj, Path):
+        return str(obj)
+    else:
+        return obj
+
+
 logger = logging.getLogger(__name__)
 console = Console()
 
@@ -211,7 +222,8 @@ def create_test_project(test_case: Dict[str, Any], base_dir: Path) -> Path:
         # Write file content
         if isinstance(content, dict):
             with open(file_path, "w") as f:
-                json.dump(content, f, indent=2)
+                json.dump(convert_paths(content), f, indent=2)
+
         else:
             with open(file_path, "w") as f:
                 f.write(content)
@@ -434,61 +446,59 @@ def run_tests(basic: bool = False, comprehensive: bool = False) -> Dict[str, Any
             "recall": 0.0
         }
     
-    with Progress() as progress:
-        # Create and test each project
-        task = progress.add_task("[green]Running test cases...", total=len(selected_cases))
+    # Alternative approach: use console.status instead of Progress
+    for test_case in selected_cases:
+        logger.info(f"Testing {test_case['name']} ({test_case['id']})")
         
-        for test_case in selected_cases:
-            logger.info(f"Testing {test_case['name']} ({test_case['id']})")
+        # Create test project
+        project_dir = create_test_project(test_case, base_dir)
+        
+        # Run scanner
+        result_path = run_scanner(project_dir, output_dir)
+        
+        # Analyze results
+        analysis = analyze_result(result_path, test_case["expected_vulns"])
+        
+        # Store results
+        test_results[test_case["id"]] = {
+            "name": test_case["name"],
+            "description": test_case["description"],
+            "ecosystem": test_case["ecosystem"],
+            "project_path": str(project_dir),
+            "result_path": str(result_path),
+            "analysis": analysis
+        }
+        
+        # Update summary metrics
+        ecosystem = test_case["ecosystem"]
+        expected_count = len(test_case["expected_vulns"])
+        detected_count = len(analysis["detected_vulns"])
+        missed_count = len(analysis["missed_vulns"])
+        extra_count = len(analysis["extra_vulns"])
+        
+        summary_metrics["total_vulns"] += expected_count
+        summary_metrics["detected_vulns"] += detected_count
+        summary_metrics["missed_vulns"] += missed_count
+        summary_metrics["extra_vulns"] += extra_count
+        
+        # Update ecosystem metrics
+        summary_metrics["by_ecosystem"][ecosystem]["total"] += expected_count
+        summary_metrics["by_ecosystem"][ecosystem]["detected"] += detected_count
+        summary_metrics["by_ecosystem"][ecosystem]["missed"] += missed_count
+        
+        # Update severity metrics
+        for vuln in test_case["expected_vulns"]:
+            severity = vuln["severity"]
+            summary_metrics["by_severity"][severity]["total"] += 1
             
-            # Create test project
-            project_dir = create_test_project(test_case, base_dir)
-            
-            # Run scanner
-            result_path = run_scanner(project_dir, output_dir)
-            
-            # Analyze results
-            analysis = analyze_result(result_path, test_case["expected_vulns"])
-            
-            # Store results
-            test_results[test_case["id"]] = {
-                "name": test_case["name"],
-                "description": test_case["description"],
-                "ecosystem": test_case["ecosystem"],
-                "project_path": str(project_dir),
-                "result_path": str(result_path),
-                "analysis": analysis
-            }
-            
-            # Update summary metrics
-            ecosystem = test_case["ecosystem"]
-            expected_count = len(test_case["expected_vulns"])
-            detected_count = len(analysis["detected_vulns"])
-            missed_count = len(analysis["missed_vulns"])
-            extra_count = len(analysis["extra_vulns"])
-            
-            summary_metrics["total_vulns"] += expected_count
-            summary_metrics["detected_vulns"] += detected_count
-            summary_metrics["missed_vulns"] += missed_count
-            summary_metrics["extra_vulns"] += extra_count
-            
-            # Update ecosystem metrics
-            summary_metrics["by_ecosystem"][ecosystem]["total"] += expected_count
-            summary_metrics["by_ecosystem"][ecosystem]["detected"] += detected_count
-            summary_metrics["by_ecosystem"][ecosystem]["missed"] += missed_count
-            
-            # Update severity metrics
-            for vuln in test_case["expected_vulns"]:
-                severity = vuln["severity"]
-                summary_metrics["by_severity"][severity]["total"] += 1
-                
-                # Check if detected
-                if any(d["expected"]["id"] == vuln["id"] for d in analysis["detected_vulns"]):
-                    summary_metrics["by_severity"][severity]["detected"] += 1
-                else:
-                    summary_metrics["by_severity"][severity]["missed"] += 1
-            
-            progress.update(task, advance=1)
+            # Check if detected
+            if any(d["expected"]["id"] == vuln["id"] for d in analysis["detected_vulns"]):
+                summary_metrics["by_severity"][severity]["detected"] += 1
+            else:
+                summary_metrics["by_severity"][severity]["missed"] += 1
+        
+        # Print progress
+        console.print(f"Completed test case {selected_cases.index(test_case) + 1}/{len(selected_cases)}: {test_case['id']}")
     
     # Calculate overall metrics
     if summary_metrics["total_vulns"] > 0:
@@ -515,23 +525,21 @@ def run_tests(basic: bool = False, comprehensive: bool = False) -> Dict[str, Any
                 summary_metrics["by_severity"][severity]["detected"] / 
                 summary_metrics["by_severity"][severity]["total"]
             )
-    
-    # Generate final results
     final_results = {
-        "test_environment": {
-            "base_dir": str(base_dir),
-            "output_dir": str(output_dir)
-        },
-        "test_cases": test_results,
-        "summary": summary_metrics,
-        "metadata": {
-            "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
-            "test_type": "basic" if basic else "comprehensive" if comprehensive else "standard",
-            "num_test_cases": len(selected_cases),
-            "num_expected_vulns": summary_metrics["total_vulns"]
-        }
+    "test_environment": {
+        "base_dir": str(base_dir),
+        "output_dir": str(output_dir)
+    },
+    "test_cases": test_results,
+    "summary": summary_metrics,
+    "metadata": {
+        "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
+        "test_type": "basic" if basic else "comprehensive" if comprehensive else "standard",
+        "num_test_cases": len(selected_cases),
+        "num_expected_vulns": summary_metrics["total_vulns"]
     }
-    
+    }
+
     # Display summary
     display_summary(summary_metrics)
     

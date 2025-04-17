@@ -1,0 +1,5 @@
+future==4.4.26
+django==4.12.75
+urllib3==1.11.74
+beautifulsoup4==5.20.60
+tqdm==3.10.54

@@ -1,0 +1,141 @@
+{
+  "report_type": "ossv-scanner-report",
+  "generated_at": "2025-04-17T21:43:41.047424",
+  "project_path": "C:\\Users\\maxgr\\Testing\\ossv_testing\\resource-small",
+  "dependencies": [
+    {
+      "name": "future",
+      "version": "4.4.26",
+      "package_type": "pypi",
+      "license": null,
+      "description": null,
+      "homepage": null,
+      "is_direct": true,
+      "parent": null,
+      "purl": "pkg:pypi/future@4.4.26"
+    },
+    {
+      "name": "django",
+      "version": "4.12.75",
+      "package_type": "pypi",
+      "license": null,
+      "description": null,
+      "homepage": null,
+      "is_direct": true,
+      "parent": null,
+      "purl": "pkg:pypi/django@4.12.75"
+    },
+    {
+      "name": "urllib3",
+      "version": "1.11.74",
+      "package_type": "pypi",
+      "license": null,
+      "description": null,
+      "homepage": null,
+      "is_direct": true,
+      "parent": null,
+      "purl": "pkg:pypi/urllib3@1.11.74"
+    },
+    {
+      "name": "beautifulsoup4",
+      "version": "5.20.60",
+      "package_type": "pypi",
+      "license": null,
+      "description": null,
+      "homepage": null,
+      "is_direct": true,
+      "parent": null,
+      "purl": "pkg:pypi/beautifulsoup4@5.20.60"
+    },
+    {
+      "name": "tqdm",
+      "version": "3.10.54",
+      "package_type": "pypi",
+      "license": null,
+      "description": null,
+      "homepage": null,
+      "is_direct": true,
+      "parent": null,
+      "purl": "pkg:pypi/tqdm@3.10.54"
+    }
+  ],
+  "vulnerabilities": {},
+  "metrics": {
+    "scan_time_seconds": 27.52228879928589,
+    "api_calls": 0,
+    "api_errors": 0,
+    "api_error_rate": 0,
+    "avg_api_response_time": 0,
+    "cache_hits": 0,
+    "cache_misses": 0,
+    "cache_hit_rate": 0,
+    "dependencies_count": 0,
+    "transitive_dependencies_count": 0,
+    "vulnerability_count": 0,
+    "memory_usage_bytes": 57155584,
+    "cpu_percent": 0.0,
+    "thread_count": 1,
+    "timestamp": "2025-04-17T21:43:41.015331+00:00",
+    "scan_time": 27.52228879928589
+  },
+  "sbom": {
+    "project_name": "resource-small",
+    "generated_at": "2025-04-17T21:43:13.534110",
+    "dependencies_count": 5,
+    "json": "{\n  \"bomFormat\": \"CycloneDX\",\n  \"specVersion\": \"1.4\",\n  \"serialNumber\": \"urn:uuid:75e60a4e-860b-4e6f-a383-98c4f60e1bb7\",\n  \"version\": 1,\n  \"metadata\": {\n    \"timestamp\": \"2025-04-17T21:43:13.534110\",\n    \"tools\": [\n      {\n        \"vendor\": \"ossv-scanner\",\n        \"name\": \"ossv-scanner\",\n        \"version\": \"0.1.0\"\n      }\n    ],\n    \"component\": {\n      \"type\": \"application\",\n      \"name\": \"resource-small\",\n      \"version\": \"1.0.0\"\n    }\n  },\n  \"components\": [\n    {\n      \"type\": \"library\",\n      \"name\": \"future\",\n      \"version\": \"4.4.26\",\n      \"purl\": \"pkg:pypi/future@4.4.26\"\n    },\n    {\n      \"type\": \"library\",\n      \"name\": \"django\",\n      \"version\": \"4.12.75\",\n      \"purl\": \"pkg:pypi/django@4.12.75\"\n    },\n    {\n      \"type\": \"library\",\n      \"name\": \"urllib3\",\n      \"version\": \"1.11.74\",\n      \"purl\": \"pkg:pypi/urllib3@1.11.74\"\n    },\n    {\n      \"type\": \"library\",\n      \"name\": \"beautifulsoup4\",\n      \"version\": \"5.20.60\",\n      \"purl\": \"pkg:pypi/beautifulsoup4@5.20.60\"\n    },\n    {\n      \"type\": \"library\",\n      \"name\": \"tqdm\",\n      \"version\": \"3.10.54\",\n      \"purl\": \"pkg:pypi/tqdm@3.10.54\"\n    }\n  ]\n}",
+    "xml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<bom xmlns=\"http://cyclonedx.org/schema/bom/1.4\" serialNumber=\"urn:uuid:75e60a4e-860b-4e6f-a383-98c4f60e1bb7\" version=\"1\">\n  <metadata>\n    <timestamp>2025-04-17T21:43:13.534110</timestamp>\n    <tools>\n      <tool>\n        <vendor>ossv-scanner</vendor>\n        <name>ossv-scanner</name>\n        <version>0.1.0</version>\n      </tool>\n    </tools>\n    <component type=\"application\">\n      <name>resource-small</name>\n      <version>1.0.0</version>\n    </component>\n  </metadata>\n  <components>\n    <component type=\"library\">\n      <name>future</name>\n      <version>4.4.26</version>\n      <purl>pkg:pypi/future@4.4.26</purl>\n    </component>\n    <component type=\"library\">\n      <name>django</name>\n      <version>4.12.75</version>\n      <purl>pkg:pypi/django@4.12.75</purl>\n    </component>\n    <component type=\"library\">\n      <name>urllib3</name>\n      <version>1.11.74</version>\n      <purl>pkg:pypi/urllib3@1.11.74</purl>\n    </component>\n    <component type=\"library\">\n      <name>beautifulsoup4</name>\n      <version>5.20.60</version>\n      <purl>pkg:pypi/beautifulsoup4@5.20.60</purl>\n    </component>\n    <component type=\"library\">\n      <name>tqdm</name>\n      <version>3.10.54</version>\n      <purl>pkg:pypi/tqdm@3.10.54</purl>\n    </component>\n  </components>\n</bom>",
+    "cyclonedx_version": "1.4"
+  },
+  "chaoss_metrics": {
+    "risk": {
+      "vulnerability_count": 0,
+      "vulnerability_density": 0.0,
+      "critical_vulnerability_density": 0.0,
+      "severity_distribution": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "unknown": 0
+      },
+      "license_risk_score": 10.0,
+      "license_compliance": {
+        "total_dependencies": 5,
+        "with_license": 0,
+        "without_license": 5,
+        "compliance_rate": 0.0
+      },
+      "odc_security_score": 10.0
+    },
+    "value": {
+      "total_dependencies": 5,
+      "direct_dependencies": 5,
+      "transitive_dependencies": 0,
+      "dependency_depth": 1,
+      "package_types": {
+        "pypi": 5
+      },
+      "dependency_freshness": {
+        "dependency_types": [
+          "pypi"
+        ],
+        "version_sample": {
+          "pypi": [
+            "4.4.26",
+            "4.12.75",
+            "1.11.74",
+            "5.20.60",
+            "3.10.54"
+          ]
+        }
+      }
+    },
+    "evolution": {
+      "vulnerability_discovery_rate": 0,
+      "average_vulnerability_age": null,
+      "vulnerability_age_distribution": {},
+      "cve_years_distribution": {}
+    },
+    "timestamp": "2025-04-17T21:43:41.015331+00:00"
+  }
+}

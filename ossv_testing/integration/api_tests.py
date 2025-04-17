@@ -12,6 +12,7 @@ import tempfile
 import json
 import requests
 import subprocess
+import sys
 from typing import Dict, Any, List, Optional, Tuple, Set
 from pathlib import Path
 import threading

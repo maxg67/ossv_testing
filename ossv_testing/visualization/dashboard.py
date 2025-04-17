@@ -13,6 +13,7 @@ import tempfile
 import json
 import subprocess
 import webbrowser
+import types
 from typing import Dict, Any, List, Optional, Tuple, Set
 from pathlib import Path
 
@@ -24,6 +25,72 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 from rich.console import Console
 from rich.progress import Progress
 from rich.table import Table
+
+class CustomJSONEncoder(json.JSONEncoder):
+    """Custom JSON encoder that handles non-serializable objects."""
+    def default(self, obj):
+        if isinstance(obj, Path):
+            return str(obj)
+        elif isinstance(obj, (types.FunctionType, types.BuiltinFunctionType, types.MethodType)):
+            return f"<function {obj.__name__}>"
+        elif callable(obj):
+            return "<callable object>"
+        elif hasattr(obj, '__dict__'):
+            return f"<{obj.__class__.__name__} object>"
+        return super().default(obj)
+    
+def safe_json_dump(data, file_path):
+    """Safely dump data to JSON, handling non-serializable objects."""
+    with open(file_path, 'w') as f:
+        json.dump(data, f, cls=CustomJSONEncoder, indent=2)
+
+def safe_json_dumps(data):
+    """Safely convert data to JSON string, handling non-serializable objects."""
+    return json.dumps(data, cls=CustomJSONEncoder)
+
+# Monkey patch the json module to use our custom encoder
+_original_dumps = json.dumps
+_original_dump = json.dump
+
+def safe_dumps(*args, **kwargs):
+    if 'cls' not in kwargs:
+        kwargs['cls'] = CustomJSONEncoder
+    return _original_dumps(*args, **kwargs)
+
+def safe_dump(*args, **kwargs):
+    if 'cls' not in kwargs:
+        kwargs['cls'] = CustomJSONEncoder
+    return _original_dump(*args, **kwargs)
+
+json.dumps = safe_dumps
+json.dump = safe_dump
+
+# Add this after the imports
+def convert_paths(results):
+    """
+    Recursively convert any Path objects to strings for JSON serialization.
+    Also handles non-serializable types like functions.
+    
+    Args:
+        results: Object to convert (can be dict, list, Path, or other type).
+        
+    Returns:
+        Object with all Path objects converted to strings and non-serializable objects converted to their string representation.
+    """
+    import types
+    from pathlib import Path
+    
+    if isinstance(results, dict):
+        return {key: convert_paths(value) for key, value in results.items()}
+    elif isinstance(results, list):
+        return [convert_paths(item) for item in results]
+    elif isinstance(results, Path):
+        return str(results)  # Convert Path object to string
+    elif isinstance(results, (types.FunctionType, types.BuiltinFunctionType, types.MethodType)):
+        return f"<function {results.__name__}>"  # Convert function to string representation
+    elif hasattr(results, '__dict__'):  # Handle custom objects
+        return f"<{results.__class__.__name__} object>"
+    return results
 
 logger = logging.getLogger(__name__)
 console = Console()
@@ -424,6 +491,16 @@ def load_test_results(input_dir: Path) -> Dict[str, Any]:
     Returns:
         Consolidated test results.
     """
+    """Load test results from the specified directory."""
+    logger.info(f"Loading results from: {input_dir} (exists: {input_dir.exists()})")
+    
+    # List all files in directory
+    if input_dir.exists():
+        all_files = list(input_dir.glob('**/*.json'))
+        logger.info(f"Found {len(all_files)} JSON files")
+        if len(all_files) > 0:
+            logger.info(f"Sample files: {all_files[:5]}")
+            
     results = {
         "controlled": {},
         "benchmark": {},
@@ -468,7 +545,8 @@ def load_test_results(input_dir: Path) -> Dict[str, Any]:
         except Exception as e:
             logger.warning(f"Error loading {result_file}: {str(e)}")
     
-    return results
+    # Sanitize loaded results to handle non-serializable objects
+    return sanitize_for_json(results)
 
 
 def extract_dashboard_data(results: Dict[str, Any]) -> Dict[str, Any]:
@@ -481,6 +559,9 @@ def extract_dashboard_data(results: Dict[str, Any]) -> Dict[str, Any]:
     Returns:
         Processed data for dashboard.
     """
+    # First, sanitize the input results to handle any non-serializable objects
+    results = sanitize_for_json(results)
+    
     dashboard_data = {
         "summary": {
             "total_tests": 0,
@@ -603,12 +684,16 @@ def extract_dashboard_data(results: Dict[str, Any]) -> Dict[str, Any]:
     for test_id, test_data in results.get("performance", {}).items():
         if "test_results" in test_data:
             # Get sorted project sizes for x-axis
-            projects = sorted(
-                [(k, v) for k, v in test_data["test_results"].items()],
-                key=lambda x: x[1].get("config", {}).get("npm_deps", 0) + 
-                              x[1].get("config", {}).get("python_deps", 0) + 
-                              x[1].get("config", {}).get("java_deps", 0)
-            )
+            try:
+                projects = sorted(
+                    [(k, v) for k, v in test_data["test_results"].items()],
+                    key=lambda x: x[1].get("config", {}).get("npm_deps", 0) + 
+                                x[1].get("config", {}).get("python_deps", 0) + 
+                                x[1].get("config", {}).get("java_deps", 0)
+                )
+            except Exception as e:
+                logger.warning(f"Error sorting performance projects: {str(e)}")
+                projects = list(test_data["test_results"].items())
             
             for project_id, project_data in projects:
                 # Skip if no metrics
@@ -674,7 +759,27 @@ def extract_dashboard_data(results: Dict[str, Any]) -> Dict[str, Any]:
     if scan_time_count > 0:
         dashboard_data["summary"]["avg_scan_time"] = total_scan_time / scan_time_count
     
-    return dashboard_data
+    # Final sanitization to ensure all data is JSON-serializable
+    return sanitize_for_json(dashboard_data)
+
+def sanitize_for_json(obj):
+    """Recursively sanitize an object for JSON serialization."""
+    import types
+    from pathlib import Path
+    
+    if isinstance(obj, dict):
+        return {k: sanitize_for_json(v) for k, v in obj.items()}
+    elif isinstance(obj, list):
+        return [sanitize_for_json(item) for item in obj]
+    elif isinstance(obj, (types.FunctionType, types.BuiltinFunctionType, types.MethodType)):
+        return f"<function {obj.__name__}>"
+    elif callable(obj):
+        return "<callable object>"
+    elif isinstance(obj, Path):
+        return str(obj)
+    elif hasattr(obj, '__dict__') and not isinstance(obj, (str, int, float, bool, type(None))):
+        return f"<{obj.__class__.__name__} object>"
+    return obj
 
 
 def generate_dashboard(input_dir: Path, output_dir: Path) -> Path:
@@ -690,36 +795,62 @@ def generate_dashboard(input_dir: Path, output_dir: Path) -> Path:
     """
     logger.info(f"Generating dashboard from results in {input_dir}")
     
-    # Create output directory if it doesn't exist
-    output_dir.mkdir(parents=True, exist_ok=True)
-    
-    # Load test results
-    results = load_test_results(input_dir)
-    
-    # Extract and process data for dashboard
-    dashboard_data = extract_dashboard_data(results)
-    
-    # Generate HTML dashboard
-    dashboard_html = Environment(
-        loader=FileSystemLoader(searchpath="/"),
-        autoescape=select_autoescape(['html', 'xml'])
-    ).from_string(HTML_TEMPLATE).render(**dashboard_data)
-    
-    # Write dashboard to file
-    dashboard_path = output_dir / "dashboard.html"
-    with open(dashboard_path, "w") as f:
-        f.write(dashboard_html)
-    
-    logger.info(f"Dashboard generated at {dashboard_path}")
-    
-    # Try to open the dashboard in a browser
     try:
-        webbrowser.open(dashboard_path.as_uri())
+        # Create output directory if it doesn't exist
+        output_dir.mkdir(parents=True, exist_ok=True)
+        
+        # Load test results
+        logger.debug("Loading test results...")
+        results = load_test_results(input_dir)
+        
+        # Extract and process data for dashboard
+        logger.debug("Extracting dashboard data...")
+        dashboard_data = extract_dashboard_data(results)
+        
+        # Test JSON serialization before rendering
+        try:
+            logger.debug("Testing JSON serialization...")
+            test_json = safe_json_dumps(dashboard_data)
+        except Exception as e:
+            logger.warning(f"Data serialization test failed: {str(e)}")
+            # Apply deeper sanitization
+            logger.debug("Applying deeper sanitization...")
+            dashboard_data = sanitize_for_json(dashboard_data)
+        
+        # Generate HTML dashboard
+        logger.debug("Generating HTML dashboard...")
+        env = Environment(
+            loader=FileSystemLoader("/"),
+            autoescape=select_autoescape(['html', 'xml'])
+        )
+        
+        try:
+            template = env.from_string(HTML_TEMPLATE)
+            dashboard_html = template.render(**dashboard_data)
+        except Exception as e:
+            logger.error(f"Error rendering template: {str(e)}")
+            raise
+        
+        # Write dashboard to file
+        dashboard_path = output_dir / "dashboard.html"
+        with open(dashboard_path, "w") as f:
+            f.write(dashboard_html)
+        
+        logger.info(f"Dashboard generated at {dashboard_path}")
+        
+        # Try to open the dashboard in a browser
+        try:
+            webbrowser.open(dashboard_path.as_uri())
+        except Exception as e:
+            logger.warning(f"Could not open dashboard in browser: {str(e)}")
+        
+        return dashboard_path
+        
     except Exception as e:
-        logger.warning(f"Could not open dashboard in browser: {str(e)}")
-    
-    return dashboard_path
-
+        logger.error(f"Error generating dashboard: {str(e)}")
+        import traceback
+        logger.debug(traceback.format_exc())
+        raise
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)

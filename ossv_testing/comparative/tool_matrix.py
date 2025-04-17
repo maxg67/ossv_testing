@@ -80,6 +80,8 @@ COMPARISON_TOOLS = {
     }
 }
 
+COMPARISON_TOOLS["owasp-dc"] = COMPARISON_TOOLS["owasp-dependency-check"]
+
 # Metrics for comparison
 COMPARISON_METRICS = [
     # Detection Effectiveness
@@ -1040,7 +1042,7 @@ def run_comparative_test(tool_id: str, project_dir: Path, output_dir: Path) -> T
         return simulate_snyk_results(project_dir, output_dir)
     elif tool_id == "dependabot":
         return simulate_dependabot_results(project_dir, output_dir)
-    elif tool_id == "owasp-dependency-check":
+    elif tool_id == "owasp-dependency-check" or tool_id == "owasp-dc":
         return simulate_dependency_check_results(project_dir, output_dir)
     else:
         raise ValueError(f"Unknown tool ID: {tool_id}")
